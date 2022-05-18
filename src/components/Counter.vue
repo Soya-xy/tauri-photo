@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri'
-const props = defineProps<{
-  initial: number
-}>()
+import { inv } from '~/composables'
 
-invoke('my_custom_command')
-const { count, inc, dec } = useCounter(props.initial)
+let initial = $ref('12')
+
+setInterval(() => {
+  initial += '32'
+}, 3000)
 </script>
 
 <template>
   <div>
-    {{ count }}
-    <button class="inc" @click="inc() && invoke('my_custom_command', { invokeMessage: count })">
+    {{ initial }}
+    <button class="inc" @click="inv(initial)">
       +
     </button>
-    <button class="dec" @click="dec() && invoke('my_custom_command', { invokeMessage: count })">
+    <button class="inc" @click="inv(initial)">
       -
     </button>
   </div>

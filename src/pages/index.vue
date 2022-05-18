@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { name } from '~/composables'
+import { globalShortcut } from '@tauri-apps/api'
+import { inv, name } from '~/composables'
+
+globalShortcut.register('CmdOrControl+Alt+J', () => {
+  inv('Soya')
+})
 </script>
 
 <template>

@@ -12,6 +12,10 @@
     "version": "0.1.0"
   },
   "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
     "allowlist": {
       "all": true
     },
@@ -57,10 +61,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 1080,
         "resizable": true,
         "title": "Photo Service Soya",
-        "width": 800
+        "width": 1920
       }
     ]
   }
