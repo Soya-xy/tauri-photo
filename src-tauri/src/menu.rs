@@ -3,6 +3,25 @@ use tauri::{
     SystemTrayMenu, SystemTrayMenuItem,
 };
 
+fn open_activation_window(app: &AppHandle, url: String) -> () {
+    println!("hello: {}", url);
+    if let Some(window) = app.get_window("photo") {
+        let _ = window.set_focus();
+        let _ = window.center();
+    } else {
+        let _window =
+            tauri::window::WindowBuilder::new(app, "photo", tauri::WindowUrl::App(url.into()))
+                .title("Activate Recut")
+                .center()
+                .focus()
+                .inner_size(500.0, 300.0)
+                .resizable(false)
+                .build()
+                .map_err(|e| e.to_string());
+        // hide the menu
+    }
+}
+
 pub fn get_menu() -> Menu {
     // create a submenu
     #[cfg(target_os = "macos")]
@@ -46,8 +65,16 @@ pub fn click_tray_item(app: &AppHandle, event: SystemTrayEvent) {
         SystemTrayEvent::MenuItemClick { id, .. } => {
             print!("{}", id);
             match id.as_str() {
-                "quit" => {
-                    std::process::exit(0);
+                "setting" => {
+                    open_activation_window(app, "http://localhost:3333/setting".to_string());
+                    // app.create_window(
+                    //     "new",
+                    //     WindowUrl::App("/setting".into()),
+                    //     |window_builder, webview_attributes| {
+                    //         (window_builder.title("Tauri"), webview_attributes)
+                    //     },
+                    // )
+                    // .unwrap();
                 }
                 "hide" => {
                     let window = app.get_window("main").unwrap();

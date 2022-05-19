@@ -2,10 +2,6 @@
 import { inv } from '~/composables'
 
 let initial = $ref('12')
-
-setInterval(() => {
-  initial += '32'
-}, 3000)
 </script>
 
 <template>

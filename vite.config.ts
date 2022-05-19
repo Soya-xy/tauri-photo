@@ -7,6 +7,8 @@ import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Unocss from 'unocss/vite'
+import { createStyleImportPlugin } from 'vite-plugin-style-import'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
   resolve: {
@@ -36,8 +38,24 @@ export default defineConfig({
     // https://github.com/antfu/vite-plugin-components
     Components({
       dts: true,
+      resolvers: [
+        ArcoResolver()
+      ]
     }),
 
+    createStyleImportPlugin({
+      libs: [
+        {
+          libraryName: '@arco-design/web-vue',
+          esModule: true,
+          resolveStyle: (name: string) => {
+            // css
+            if(name === 'form-item') name = 'form'
+            return `@arco-design/web-vue/es/${name}/style/css.js`
+          },
+        }
+      ]
+    }),
     // https://github.com/antfu/unocss
     // see unocss.config.ts for config
     Unocss(),
