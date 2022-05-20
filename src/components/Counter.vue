@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inv } from '~/composables'
 
-let initial = $ref('12')
+const initial = $ref('12')
 </script>
 
 <template>

@@ -3,7 +3,6 @@ import { isDark, toggleDark } from '~/composables'
 watch(isDark, (val) => {
   document.body.setAttribute('arco-theme', val ? 'dark' : '')
 }, { immediate: true })
-
 </script>
 
 <template>
@@ -13,7 +12,9 @@ watch(isDark, (val) => {
       <div v-else i-carbon-sun />
     </button>
 
-    <a class="icon-btn" i-carbon-logo-github rel="noreferrer" href="https://github.com/antfu/vitesse-lite"
-      target="_blank" title="GitHub" />
+    <a
+      class="icon-btn" i-carbon-logo-github rel="noreferrer" href="https://github.com/antfu/vitesse-lite"
+      target="_blank" title="GitHub"
+    />
   </nav>
 </template>
