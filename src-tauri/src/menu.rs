@@ -1,6 +1,6 @@
 use tauri::{
     AppHandle, CustomMenuItem, Manager, Menu, MenuItem, Submenu, SystemTray, SystemTrayEvent,
-    SystemTrayMenu, SystemTrayMenuItem,
+    SystemTrayMenu, SystemTrayMenuItem
 };
 
 fn open_activation_window(app: &AppHandle, url: String) -> () {
@@ -67,14 +67,6 @@ pub fn click_tray_item(app: &AppHandle, event: SystemTrayEvent) {
             match id.as_str() {
                 "setting" => {
                     open_activation_window(app, "http://localhost:3333/setting".to_string());
-                    // app.create_window(
-                    //     "new",
-                    //     WindowUrl::App("/setting".into()),
-                    //     |window_builder, webview_attributes| {
-                    //         (window_builder.title("Tauri"), webview_attributes)
-                    //     },
-                    // )
-                    // .unwrap();
                 }
                 "hide" => {
                     let window = app.get_window("main").unwrap();
