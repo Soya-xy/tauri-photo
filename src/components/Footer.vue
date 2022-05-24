@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isDark, src, toggleDark } from '~/composables'
+import { isDark, toggleDark } from '~/composables'
 
 watch(isDark, (val) => {
   document.body.setAttribute('arco-theme', val ? 'dark' : '')
@@ -7,7 +7,6 @@ watch(isDark, (val) => {
 </script>
 
 <template>
-  <img :src="src" alt="123">
   <nav text-xl mt-6 inline-flex gap-2>
     <button class="icon-btn !outline-none" @click="toggleDark()">
       <div v-if="isDark" i-carbon-moon />

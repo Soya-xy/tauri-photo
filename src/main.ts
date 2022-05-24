@@ -7,6 +7,7 @@ import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
+import '@arco-design/web-vue/es/message/style/css.js'
 import 'uno.css'
 
 // 监听全局复制事件

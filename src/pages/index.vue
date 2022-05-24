@@ -8,6 +8,5 @@ globalShortcut.register('CmdOrControl+J', () => {
 </script>
 
 <template>
-  <Menu />
   <a-upload draggable action="/" />
 </template>

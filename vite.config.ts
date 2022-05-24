@@ -30,6 +30,7 @@ export default defineConfig({
         'vue/macros',
         'vue-router',
         '@vueuse/core',
+        { '@arco-design/web-vue': ['Message'] },
       ],
       dts: true,
     }),
