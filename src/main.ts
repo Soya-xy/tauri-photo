@@ -2,14 +2,15 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from 'virtual:generated-pages'
 import { appWindow } from '@tauri-apps/api/window'
+import { listenClip } from './composables'
 import App from './App.vue'
 
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
-appWindow.listen('ClipboardEvent', (event) => {
-  console.log(event)
-})
+
+// 监听全局复制事件
+appWindow.listen('ClipboardEvent', listenClip)
 
 const app = createApp(App)
 const router = createRouter({

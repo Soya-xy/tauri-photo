@@ -1,8 +1,9 @@
+import type { Event } from '@tauri-apps/api/helpers/event'
 import { invoke } from '@tauri-apps/api/tauri'
 export * from './dark'
-export const src = ref('')
 
-export async function inv() {
+export const src = ref('')
+export async function sendCopy() {
   const { Image } = await invoke('get_image')
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')!
@@ -14,4 +15,9 @@ export async function inv() {
   canvas.toBlob((blob) => {
     src.value = URL.createObjectURL(blob!)
   })
+}
+
+export function listenClip<T>(e: Event<T>) {
+  // console.log(e, '123')
+  return e
 }
