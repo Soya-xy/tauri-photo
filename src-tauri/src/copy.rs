@@ -1,6 +1,6 @@
 use arboard::Clipboard;
 use std::fmt;
-
+use crate::setup::{ClipboardValue,ImageData};
 struct ClipboardContent {
     width: usize,
     height: usize,
@@ -18,13 +18,12 @@ impl fmt::Display for ClipboardContent {
 }
 
 #[tauri::command]
-pub fn hello() -> String {
+pub fn get_image() -> ClipboardValue {
     let mut clipboard = Clipboard::new().expect("Failed to create clipboard!");
     let image = clipboard.get_image().unwrap();
-    let cli = ClipboardContent {
+    ClipboardValue::Image(ImageData {
         width: image.width,
         height: image.height,
-        image: image.bytes.to_vec(),
-    };
-    cli.to_string()
+        bytes: Vec::from(&*image.bytes)
+    })
 }
