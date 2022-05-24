@@ -19,6 +19,7 @@ export async function sendCopy() {
 export async function set_image(image: number[]) {
   await invoke('set_image', { image })
 }
+
 export function listenClip<T>(e: Event<T>) {
   // console.log(e, '123')
   return e
