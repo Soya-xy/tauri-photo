@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 import type { TableColumnData } from '@arco-design/web-vue'
+import type { Image, List } from '~/composables'
+
 import { history, set_image } from '~/composables'
 const { copy: cp } = useClipboard()
 
@@ -43,17 +45,15 @@ const del = (e) => {
   console.log(e)
 }
 
-const copy = async (e) => {
+const copy = async (e: List) => {
   try {
     if (e.type === 'Text')
-      await cp(e.content)
+      await cp(e.content as string)
     else
-      await set_image(e.content)
+      await set_image(e.content as Image)
     Message.success('Copy success')
   }
   catch (error) {
-    console.log(error)
-
     Message.error('Copy failed')
   }
 }

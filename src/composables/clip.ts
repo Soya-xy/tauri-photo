@@ -1,17 +1,20 @@
+import type { TableData } from '@arco-design/web-vue'
 import type { Event } from '@tauri-apps/api/helpers/event'
 import { invoke } from '@tauri-apps/api/tauri'
+import dayjs from 'dayjs'
+import { v4 } from 'uuid'
 
-interface Image {
+export interface Image {
   width: number
   height: number
   bytes: [number]
 }
 
-interface List {
-  key: number
+export interface List extends TableData {
+  key: string
   type: 'Image' | 'Text'
   content: Image | string
-  time: Date
+  time: string
 }
 
 export const history = ref<List[]>([])
@@ -30,7 +33,7 @@ export async function sendCopy() {
   return canvas.toBlob(blob => URL.createObjectURL(blob!))
 }
 
-export async function set_image(image: number[]) {
+export async function set_image(image: Image) {
   await invoke('set_image', { image })
 }
 
@@ -40,9 +43,9 @@ export function listenClip(e: Event<{
 }>) {
   const type = Object.hasOwn(e.payload, 'Image') ? 'Image' : 'Text'
   history.value.unshift({
-    key: new Date().getTime(),
+    key: v4(),
     content: e.payload[type],
     type,
-    time: new Date(),
+    time: dayjs().format('YY-MM-DD HH:mm'),
   })
 }
