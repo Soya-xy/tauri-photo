@@ -1,12 +1,6 @@
-use std::{
-    error::Error,
-};
-use tauri::{App, Manager, Runtime};
 use crate::clip::{Clipboard, ClipboardValue};
-
-
-
-
+use std::error::Error;
+use tauri::{App, Manager, Runtime};
 
 pub fn watcher_clip<R>(app: &mut App<R>) -> Result<(), Box<dyn Error>>
 where

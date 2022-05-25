@@ -2122,6 +2122,7 @@ name = "photo"
 version = "0.1.0"
 dependencies = [
  "arboard",
+ "base64",
  "clipboard-master",
  "env_logger",
  "image",
