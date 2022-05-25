@@ -1,17 +1,19 @@
 <script setup lang='ts'>
 import { isDark } from '~/composables'
 const router = useRouter()
+const route = useRoute()
+let keys = $ref('')
 const clickMenu = (e: string) => {
   router.push(e)
 }
+watchEffect(
+  () => keys = route.path,
+)
 </script>
 
 <template>
   <div mb4>
-    <a-menu
-      :theme="isDark ? 'dark' : 'light'" mode="horizontal" :default-selected-keys="['/']"
-      @menu-item-click="clickMenu"
-    >
+    <a-menu :theme="isDark ? 'dark' : 'light'" mode="horizontal" :selected-keys="[keys]" @menu-item-click="clickMenu">
       <a-menu-item key="/">
         Upload
       </a-menu-item>

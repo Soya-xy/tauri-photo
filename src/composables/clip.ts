@@ -19,18 +19,33 @@ export interface List extends TableData {
 
 export const history = ref<List[]>([])
 
-export async function sendCopy() {
-  const { Image } = await invoke('get_image')
+export async function bytesToBlob(Image: Image): Promise<{ blob: Blob; src: string }> {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')!
+  canvas.width = Image.width
+  canvas.height = Image.height
   const imgData = context.createImageData(Image.width, Image.height)
-
-  for (let i = 0; i < Image.bytes.length; i++)
-    imgData.data[i] = Image.bytes[i]
+  imgData.data.set(Image.bytes)
 
   context.putImageData(imgData, 10, 10)
 
-  return canvas.toBlob(blob => URL.createObjectURL(blob!))
+  return new Promise((resolve) => {
+    canvas.toBlob(file => resolve({
+      blob: file!,
+      src: URL.createObjectURL(file!),
+    }))
+  })
+}
+
+export async function sendCopy() {
+  const { Image } = await invoke('get_image')
+  bytesToBlob(Image)
+  history.value.unshift({
+    key: v4(),
+    content: Image,
+    type: 'Image',
+    time: dayjs().format('YYYY-MM-DD HH:mm'),
+  })
 }
 
 export async function set_image(image: Image) {
@@ -46,6 +61,6 @@ export function listenClip(e: Event<{
     key: v4(),
     content: e.payload[type],
     type,
-    time: dayjs().format('YY-MM-DD HH:mm'),
+    time: dayjs().format('YYYY-MM-DD HH:mm'),
   })
 }

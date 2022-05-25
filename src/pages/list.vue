@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import type { TableColumnData } from '@arco-design/web-vue'
+import type { TableColumnData, TableData } from '@arco-design/web-vue'
 import type { Image, List } from '~/composables'
 
 import { history, set_image } from '~/composables'
@@ -41,8 +41,8 @@ const select = (e: string[] | boolean) => {
   }
 }
 
-const del = (e) => {
-  console.log(e)
+const del = (e: TableData, idx: number) => {
+  history.value.splice(idx, 1)
 }
 
 const copy = async (e: List) => {
@@ -79,14 +79,14 @@ const copy = async (e: List) => {
       </template>
       <template #content="{ record }">
         <span v-if="record.type === 'Text'" break-all>{{ record.content }}</span>
-        <a-image v-if="record.type === 'Image'" :src="record.content" width="150" />
+        <Image v-if="record.type === 'Image'" :content="record.content" />
       </template>
-      <template #action="{ record }">
+      <template #action="{ record, rowIndex }">
         <a-space>
           <a-button type="primary" @click="copy(record)">
             Copy
           </a-button>
-          <a-button status="danger" @click="del(record)">
+          <a-button status="danger" @click="del(record, rowIndex)">
             Delete
           </a-button>
         </a-space>
