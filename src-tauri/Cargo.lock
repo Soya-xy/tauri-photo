@@ -2126,6 +2126,7 @@ dependencies = [
  "clipboard-master",
  "env_logger",
  "image",
+ "log",
  "serde",
  "serde_json",
  "tao",
