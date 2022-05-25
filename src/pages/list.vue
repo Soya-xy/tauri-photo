@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import type { TableColumnData } from '@arco-design/web-vue'
+import { history, set_image } from '~/composables'
 const { copy: cp } = useClipboard()
 
 const columns: TableColumnData[] = [
@@ -26,17 +27,6 @@ const columns: TableColumnData[] = [
   },
 ]
 
-const data = [{
-  key: '1',
-  type: 'Text',
-  content: 'Hello Wor',
-  time: '2020-01-01 14:32:32',
-}, {
-  key: '2',
-  type: 'Image',
-  content: 'https://avatars2.githubusercontent.com/u/24394918?s=460&v=4',
-  time: '2020-01-01 14:32:32',
-}]
 const loading = $ref(false)
 
 let selectItem = $ref<string[]>([])
@@ -58,10 +48,12 @@ const copy = async (e) => {
     if (e.type === 'Text')
       await cp(e.content)
     else
-      await set_image(e.bytes)
+      await set_image(e.content)
     Message.success('Copy success')
   }
   catch (error) {
+    console.log(error)
+
     Message.error('Copy failed')
   }
 }
@@ -75,7 +67,7 @@ const copy = async (e) => {
   </div>
   <div>
     <a-table
-      :columns="columns" :data="data" stripe :loading="loading" show-header :row-selection="{
+      :columns="columns" :data="history" stripe :loading="loading" show-header :row-selection="{
         type: 'checkbox',
         showCheckedAll: true,
       }" @select="select" @select-all="select"

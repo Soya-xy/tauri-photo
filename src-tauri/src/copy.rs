@@ -1,6 +1,6 @@
-use arboard::Clipboard;
-use std::fmt;
-use crate::setup::{ClipboardValue,ImageData};
+use crate::clip::{ClipboardValue, ImageData};
+use arboard::{Clipboard, ImageData as ArImageData};
+use std::{borrow::Cow, fmt};
 struct ClipboardContent {
     width: usize,
     height: usize,
@@ -24,6 +24,18 @@ pub fn get_image() -> ClipboardValue {
     ClipboardValue::Image(ImageData {
         width: image.width,
         height: image.height,
-        bytes: Vec::from(&*image.bytes)
+        bytes: Vec::from(&*image.bytes),
     })
+}
+
+#[tauri::command]
+pub fn set_image(image: ImageData) {
+    let mut clipboard = Clipboard::new().expect("Failed to create clipboard!");
+    clipboard
+        .set_image(ArImageData {
+            width: image.width,
+            height: image.height,
+            bytes: Cow::Owned(image.bytes),
+        })
+        .unwrap();
 }
