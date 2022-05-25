@@ -6,7 +6,9 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
+    AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AImage: typeof import('@arco-design/web-vue')['Image']
+    AInput: typeof import('@arco-design/web-vue')['Input']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     ASpace: typeof import('@arco-design/web-vue')['Space']

@@ -38,14 +38,19 @@ export async function bytesToBlob(Image: Image): Promise<{ blob: Blob; src: stri
 }
 
 export async function sendCopy() {
-  const { Image } = await invoke('get_image')
-  bytesToBlob(Image)
-  history.value.unshift({
-    key: v4(),
-    content: Image,
-    type: 'Image',
-    time: dayjs().format('YYYY-MM-DD HH:mm'),
-  })
+  try {
+    const { Image } = await invoke('get_image')
+    bytesToBlob(Image)
+    history.value.unshift({
+      key: v4(),
+      content: Image,
+      type: 'Image',
+      time: dayjs().format('YYYY-MM-DD HH:mm'),
+    })
+  }
+  catch (error) {
+    Message.error(error as string)
+  }
 }
 
 export async function set_image(image: Image) {
