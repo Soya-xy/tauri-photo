@@ -18,6 +18,7 @@ export interface List extends TableData {
 }
 
 export const history = ref<List[]>([])
+export const { text, copy, copied, isSupported } = useClipboard()
 
 export async function bytesToBlob(Image: Image): Promise<{ blob: Blob; src: string }> {
   const canvas = document.createElement('canvas')
