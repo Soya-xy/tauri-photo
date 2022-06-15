@@ -32,24 +32,20 @@ const isFile = (e: string) => {
 
 <template>
   <div v-if="imgList.length > 0">
-    <Waterfall
-      :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :breakpoints="{
-        1200: { //当屏幕宽度小于等于1200
-          rowPerView: 3,
-        },
-        800: { //当屏幕宽度小于等于800
-          rowPerView: 3,
-        },
-        500: { //当屏幕宽度小于等于500
-          rowPerView: 1,
-        },
-      }"
-    >
+    <Waterfall :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :breakpoints="{
+      1200: { //当屏幕宽度小于等于1200
+        rowPerView: 3,
+      },
+      800: { //当屏幕宽度小于等于800
+        rowPerView: 3,
+      },
+      500: { //当屏幕宽度小于等于500
+        rowPerView: 1,
+      },
+    }">
       <template #item="{ item, url }">
-        <a-image
-          v-if="isFile(item.name) === false" :src="url" :title="item.name" :description="item.date"
-          footer-position="outer"
-        >
+        <a-image v-if="isFile(item.name) === false" :src="url" :title="item.name" :description="item.date"
+          footer-position="outer">
           <template #extra>
             <div class="actions actions-outer">
               <span icon-btn i-carbon:download @click="onDownLoad(url, item)" />
@@ -61,19 +57,17 @@ const isFile = (e: string) => {
           <i icon-btn w-20 h-20 :class="isFile(item.name)" />
           <div class="arco-image-footer" prefix-cls="arco-image">
             <div class="arco-image-footer-caption">
-              <div class="arco-image-footer-caption-title" title="stationImg.png">
-                stationImg.png
+              <div class="arco-image-footer-caption-title">
+                {{ item.name }}
               </div>
-              <div class="arco-image-footer-caption-description" title="2022-06-15 13:51:51">
-                2022-06-15 13:51:51
+              <div class="arco-image-footer-caption-description">
+                {{ item.date }}
               </div>
             </div>
             <div class="arco-image-footer-extra">
-              <div class="actions actions-outer" data-v-9bad2628="">
-                <span
-                  icon-btn="" i-carbon:download=""
-                  data-v-9bad2628=""
-                /><span ml2="" icon-btn="" i-carbon:copy-link="" data-v-9bad2628="" />
+              <div class="actions actions-outer" >
+                <span icon-btn i-carbon:download="" />
+                <span ml2 icon-btn i-carbon:copy-link="" />
               </div>
             </div>
           </div>
