@@ -3,14 +3,18 @@ import { Waterfall } from 'vue-waterfall-plugin-next'
 import { copy, imgList, isDark } from '~/composables'
 import 'vue-waterfall-plugin-next/style.css'
 function onDownLoad(url: string, name: string) {
-  console.log(name)
+  const a = document.createElement('a')
+  // 将链接地址字符内容转变成blob地址
+  fetch(url).then(res => res.blob()).then((blob) => {
+    a.href = URL.createObjectURL(blob)
+    a.download = name || '' // 下载文件的名字
+    document.body.appendChild(a)
+    a.click()
 
-  // const a = document.createElement('a')
-  // a.download = `${name}.xls`
-  // a.href = url
-  // document.body.append(a) // 修复firefox中无法触发click
-  // a.click()
-  // a.remove()
+    // 在资源下载完成后 清除 占用的缓存资源
+    window.URL.revokeObjectURL(a.href)
+    document.body.removeChild(a)
+  })
 }
 
 function copyUrl(url: string) {
@@ -32,23 +36,27 @@ const isFile = (e: string) => {
 
 <template>
   <div v-if="imgList.length > 0">
-    <Waterfall :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :breakpoints="{
-      1200: { //当屏幕宽度小于等于1200
-        rowPerView: 3,
-      },
-      800: { //当屏幕宽度小于等于800
-        rowPerView: 3,
-      },
-      500: { //当屏幕宽度小于等于500
-        rowPerView: 1,
-      },
-    }">
+    <Waterfall
+      :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :breakpoints="{
+        1200: { //当屏幕宽度小于等于1200
+          rowPerView: 3,
+        },
+        800: { //当屏幕宽度小于等于800
+          rowPerView: 3,
+        },
+        500: { //当屏幕宽度小于等于500
+          rowPerView: 1,
+        },
+      }"
+    >
       <template #item="{ item, url }">
-        <a-image v-if="isFile(item.name) === false" :src="url" :title="item.name" :description="item.date"
-          footer-position="outer">
+        <a-image
+          v-if="isFile(item.name) === false" :src="url" :title="item.name" :description="item.date"
+          footer-position="outer"
+        >
           <template #extra>
             <div class="actions actions-outer">
-              <span icon-btn i-carbon:download @click="onDownLoad(url, item)" />
+              <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
               <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
             </div>
           </template>
@@ -65,7 +73,7 @@ const isFile = (e: string) => {
               </div>
             </div>
             <div class="arco-image-footer-extra">
-              <div class="actions actions-outer" >
+              <div class="actions actions-outer">
                 <span icon-btn i-carbon:download="" />
                 <span ml2 icon-btn i-carbon:copy-link="" />
               </div>
