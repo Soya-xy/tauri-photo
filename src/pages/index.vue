@@ -1,26 +1,14 @@
 <script setup lang="ts">
-import COS from 'cos-js-sdk-v5'
 import { globalShortcut } from '@tauri-apps/api'
 import type {
   RequestOption,
 } from '@arco-design/web-vue/es/upload/interfaces'
-import { copy, hexToString, imgList, isSupported, sendCopy } from '~/composables'
+import { Bucket, Region, copy, cos, imgList, isSupported, sendCopy } from '~/composables'
 if ((window as any).__TAURI__) {
   globalShortcut.register('CmdOrControl+J', () => {
     sendCopy()
   })
 }
-const Bucket = 'photoserver-1254285921' /* 存储桶，必须字段 */
-const Region = 'ap-beijing' /* 存储桶所在地域，必须字段 */
-const SecretId = 'KIDf6IFSQOi02g5EBJKXUCiz1rSpxrWHFF5'
-const SecretKey = 'GXZNxIOJ1UigPwEH7h27xXv4xd4GCsJ'
-const c = '41'
-const d = '6b'
-// 初始化实例
-const cos = new COS({
-  SecretId: hexToString(c) + SecretId,
-  SecretKey: hexToString(d) + SecretKey,
-})
 
 const customRequest = (options: RequestOption) => {
   const {
@@ -45,11 +33,13 @@ const customRequest = (options: RequestOption) => {
         onProgress(percent)
       },
     }).then((res) => {
-      imgList.value.push({
-        name: fileItem.name,
-        url: `https://${res.Location}`,
-        date: useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss').value,
-      })
+      if (fileItem.name) {
+        imgList.value.push({
+          name: fileItem.name,
+          url: `https://${res.Location}`,
+          date: useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss').value,
+        })
+      }
       if (isSupported)
         copy(`https://${res.Location}`)
 
@@ -62,6 +52,17 @@ const customRequest = (options: RequestOption) => {
   }
   else {
     Message.error('文件类型错误')
+  }
+  return {
+    abort() {
+      if (fileItem.name) {
+        cos.deleteObject({
+          Bucket,
+          Region,
+          Key: fileItem.name,
+        })
+      }
+    },
   }
 }
 

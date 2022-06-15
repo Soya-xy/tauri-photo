@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { Waterfall } from 'vue-waterfall-plugin-next'
-import { copy, imgList, isDark } from '~/composables'
+import { Bucket, Region, copy, cos, imgList, isDark } from '~/composables'
 import 'vue-waterfall-plugin-next/style.css'
 function onDownLoad(url: string, name: string) {
   const a = document.createElement('a')
@@ -25,6 +25,22 @@ function copyUrl(url: string) {
   })
 }
 
+function deleteItem(Key: string, k: number, all = false) {
+  cos.deleteObject({
+    Bucket,
+    Region,
+    Key,
+  }, (err) => {
+    if (err) { Message.error(`删除失败:${err.message}`) }
+    else {
+      if (!all) {
+        imgList.value.splice(k, 1)
+        Message.success('删除成功')
+      }
+    }
+  })
+}
+
 const isFile = (e: string) => {
   if (e.endsWith('.svg'))
     return 'i-vscode-icons:file-type-svg'
@@ -32,24 +48,43 @@ const isFile = (e: string) => {
     return 'i-vscode-icons:file-type-pdf2'
   return false
 }
+
+function sure() {
+  Modal.confirm({
+    title: 'Delete All Files?',
+    content: 'Are you sure you want to delete all files?',
+    onOk() {
+      imgList.value.map((v) => {
+        cos.deleteObject({
+          Bucket,
+          Region,
+          Key: v.name,
+        })
+        return []
+      })
+      imgList.value = []
+    },
+  })
+}
 </script>
 
 <template>
   <div v-if="imgList.length > 0">
+    <a-button status="danger" absolute right-4 top-5 @click="sure">
+      清空
+    </a-button>
     <Waterfall
-      :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :breakpoints="{
-        1200: { //当屏幕宽度小于等于1200
-          rowPerView: 3,
-        },
+      :background-color="isDark ? '#121212' : 'white'" :list="imgList" img-selector="url" :delay="500"
+      :breakpoints="{
         800: { //当屏幕宽度小于等于800
-          rowPerView: 3,
+          rowPerView: 2,
         },
         500: { //当屏幕宽度小于等于500
           rowPerView: 1,
         },
       }"
     >
-      <template #item="{ item, url }">
+      <template #item="{ item, url, index }">
         <a-image
           v-if="isFile(item.name) === false" :src="url" :title="item.name" :description="item.date"
           footer-position="outer"
@@ -58,6 +93,9 @@ const isFile = (e: string) => {
             <div class="actions actions-outer">
               <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
               <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
+              <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
+                <span ml2 icon-btn i-carbon:trash-can />
+              </a-popconfirm>
             </div>
           </template>
         </a-image>
@@ -74,8 +112,11 @@ const isFile = (e: string) => {
             </div>
             <div class="arco-image-footer-extra">
               <div class="actions actions-outer">
-                <span icon-btn i-carbon:download="" />
-                <span ml2 icon-btn i-carbon:copy-link="" />
+                <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
+                <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
+                <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
+                  <span ml2 icon-btn i-carbon:trash-can />
+                </a-popconfirm>
               </div>
             </div>
           </div>
