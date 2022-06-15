@@ -17,6 +17,9 @@ watchEffect(
       <a-menu-item key="/">
         Upload
       </a-menu-item>
+      <a-menu-item key="/img-list">
+        List
+      </a-menu-item>
       <a-menu-item key="/list">
         Clipboard
       </a-menu-item>
