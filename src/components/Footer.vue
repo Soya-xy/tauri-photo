@@ -14,7 +14,7 @@ watch(isDark, (val) => {
     </button>
 
     <a
-      class="icon-btn" i-carbon-logo-github rel="noreferrer" href="https://github.com/antfu/vitesse-lite"
+      class="icon-btn" i-carbon-logo-github rel="noreferrer" href="https://github.com/Soya-xy/tauri-photo"
       target="_blank" title="GitHub"
     />
   </nav>
