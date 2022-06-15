@@ -91,11 +91,17 @@ function sure() {
         >
           <template #extra>
             <div class="actions actions-outer">
-              <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
-              <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
-              <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
-                <span ml2 icon-btn i-carbon:trash-can />
-              </a-popconfirm>
+              <a-tooltip content="Download">
+                <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
+              </a-tooltip>
+              <a-tooltip content="Copy Url">
+                <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
+              </a-tooltip>
+              <a-tooltip content="Delete This">
+                <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
+                  <span ml2 icon-btn i-carbon:trash-can />
+                </a-popconfirm>
+              </a-tooltip>
             </div>
           </template>
         </a-image>
@@ -112,11 +118,17 @@ function sure() {
             </div>
             <div class="arco-image-footer-extra">
               <div class="actions actions-outer">
-                <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
-                <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
-                <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
-                  <span ml2 icon-btn i-carbon:trash-can />
-                </a-popconfirm>
+                <a-tooltip content="Download">
+                  <span icon-btn i-carbon:download @click="onDownLoad(url, item.name)" />
+                </a-tooltip>
+                <a-tooltip content="Copy Url">
+                  <span ml2 icon-btn i-carbon:copy-link @click="copyUrl(item.url)" />
+                </a-tooltip>
+                <a-tooltip content="Delete This">
+                  <a-popconfirm content="Are you sure you want to delete?" @ok="deleteItem(item.name, index)">
+                    <span ml2 icon-btn i-carbon:trash-can />
+                  </a-popconfirm>
+                </a-tooltip>
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
+    ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Image: typeof import('./src/components/Image.vue')['default']
