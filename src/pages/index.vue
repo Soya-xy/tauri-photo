@@ -4,7 +4,7 @@ import { globalShortcut } from '@tauri-apps/api'
 import type {
   RequestOption,
 } from '@arco-design/web-vue/es/upload/interfaces'
-import { copy, hexToString, imgList, sendCopy } from '~/composables'
+import { copy, hexToString, imgList, isSupported, sendCopy } from '~/composables'
 if ((window as any).__TAURI__) {
   globalShortcut.register('CmdOrControl+J', () => {
     sendCopy()
@@ -49,7 +49,8 @@ const customRequest = (options: RequestOption) => {
         name: fileItem.name,
         url: `https://${res.Location}`,
       })
-      copy(`https://${res.Location}`)
+      if (isSupported)
+        copy(`https://${res.Location}`)
       onSuccess()
       Message.success('上传成功')
     }).catch((err) => {
