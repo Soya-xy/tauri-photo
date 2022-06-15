@@ -48,9 +48,11 @@ const customRequest = (options: RequestOption) => {
       imgList.value.push({
         name: fileItem.name,
         url: `https://${res.Location}`,
+        date: useDateFormat(useNow(), 'YYYY-MM-DD HH:mm:ss').value,
       })
       if (isSupported)
         copy(`https://${res.Location}`)
+
       onSuccess()
       Message.success('上传成功')
     }).catch((err) => {
