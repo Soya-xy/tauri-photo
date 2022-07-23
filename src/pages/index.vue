@@ -3,6 +3,7 @@ import { globalShortcut } from '@tauri-apps/api'
 import type {
   RequestOption,
 } from '@arco-design/web-vue/es/upload/interfaces'
+
 import { Bucket, Region, copy, cos, imgList, isSupported, sendCopy } from '~/composables'
 if ((window as any).__TAURI__) {
   globalShortcut.register('CmdOrControl+J', () => {

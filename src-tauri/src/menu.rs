@@ -66,7 +66,7 @@ pub fn click_tray_item(app: &AppHandle, event: SystemTrayEvent) {
             print!("{}", id);
             match id.as_str() {
                 "setting" => {
-                    open_activation_window(app, "http://localhost:3333/setting".to_string());
+                    open_activation_window(app, "http://10.141.141.81:31740".to_string());
                 }
                 "hide" => {
                     let window = app.get_window("main").unwrap();
